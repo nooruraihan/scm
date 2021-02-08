@@ -48,7 +48,7 @@ section.login {
         else{
         ?>
           <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/userview')?>"><i class="fa fa-user" aria-hidden="true"></i><?php echo $userSession_data["user_name"]; ?></a>
+          <a class="nav-link" href="<?php echo base_url('user/userprofile/').$userSession_data["user_id"]?>"><i class="fa fa-user" aria-hidden="true"></i><?php echo $userSession_data["user_name"]; ?></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo base_url('user/logout')?>">Logout</a>

@@ -1,4 +1,7 @@
-<?php $this->load->view('header'); ?>
+<?php $this->load->view('header'); 
+$userSession_data=$this->session->userdata();
+
+?>?>
 	
 	<div class="row mt-5">
 		<div class="col-md-12 text-center">

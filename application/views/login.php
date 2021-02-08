@@ -11,37 +11,17 @@
                         </div>
                         <div class="form-group">
                         <input type="password" class="form-control" placeholder="Password" name="password" autocomplete="off" required>
-                    </div>
+                        </div>
 					
 
-                    <a href="#"> Forgot Password?</a>
+                    
                     <button type="submit"  class="btn btn-success btn-lg btn-block">LOGIN</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-    <script>
-        function loginsubmit() {
-                        
-                        $.ajax({
+    <diV class="footer" style="height:200px">
 
-                            url: "<?php echo base_url('user/loginsubmit') ?>" ,
-                            method: "POST",
-                            data: $('#loginform').serialize(),
-//                         
-                            success: function (response) {
-//                               alert(response);
-                                if ($.trim(response) === 'success') {
-                                    window.location.href = "<?php echo base_url('user')?>";
-                                } else if ($.trim(response) === 'fail') {
-                                     $('#failsubmit').show().html();
-                                    setTimeout(function () {
-                                        $('#failsubmit').hide();
-                                    }, 3000);
-                                }
-                            }
-                        });
-                        return false;
-                    }
-    </script>
+    </div>
+    <?php $this->load->view('footer'); ?>

@@ -123,9 +123,77 @@ class User extends CI_Controller {
             redirect(site_url(). '/user/login' );
    
     }
-    public function userview() {
-     
-        $this->load->view('user_view');
-       
-    }
+    public function userprofile($userid) {
+        $data['userdetails'] = $this->muser_model->getuserById($userid);
+        $this->load->view('userprofile', $data);
+        
+        }
+        public function editprofile($userid) {
+        $data['userdetails'] = $this->muser_model->getuserById($userid);
+        $this->load->view('editprofile', $data);
+        
+        }
+        public function updateuser($userid) {
+            $this->form_validation->set_rules('fname', 'First Name', 'trim|required');
+            $this->form_validation->set_rules('lname', 'Last Name', 'trim|required');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+           
+            $this->form_validation->set_rules('gender', 'Gender', 'trim|required');
+            $this->form_validation->set_rules('birthday', 'Date of Birth ', 'trim|required');
+        
+            if ($this->form_validation->run() == FALSE) {
+                echo"notvalid";
+            } 
+            else {
+                $userData = array();
+                $userdetails = $this->muser_model->getuserById($userid);
+                $userData['first_name'] = $this->security->xss_clean($this->input->post('fname'));
+                $userData['last_name'] = $this->security->xss_clean($this->input->post('lname'));
+                $userData['email'] = $this->security->xss_clean($this->input->post('email'));
+                $userData['user_name'] = $this->security->xss_clean($this->input->post('email'));
+                //$password = $this->security->xss_clean($this->input->post('paswrd'));
+                //$password = $this->security->xss_clean($this->input->post('paswrd'));
+                $emailcheck = $this->muser_model->alllogins($this->input->post('email'));
+                
+                if ($emailcheck != '' && $emailcheck->user_id != $userid) {
+                   echo "emailalready";
+                } else {
+                 
+                    $date = date('Y-m-d');
+                    $userData['dateofbirth'] = $this->security->xss_clean($this->input->post('birthday'));
+                    $userData['gender'] = $this->security->xss_clean($this->input->post('gender'));
+                    if ($_FILES['imageval']['name'] != '') {
+    
+                        $target_dir_logo = "images/users/";
+                        $filename_logo = $_FILES["imageval"]["name"];
+                        foreach ($filename_logo as $key => $tmp_name) 
+                        {
+                            $filename_logo = $filename_logo[0];
+                            $fileName_logo = preg_replace('#[^a-z.0-9]#i', '',
+                                    $tmp_name);
+                            $kaboom_logo = explode(".", $fileName_logo); 
+                            $fileExt_logo = end($kaboom_logo);
+                            $fileName_logo = time() . rand() . "." . $fileExt_logo;
+                            $target_file_logo = $target_dir_logo . basename($fileName_logo);
+                            $imageFileType_logo = pathinfo($target_file_logo,
+                                    PATHINFO_EXTENSION);
+                            $fileTmpLoc = $_FILES["imageval"]["tmp_name"];
+                            if ($fileExt_logo != '')
+                            {
+                                move_uploaded_file($fileTmpLoc[$key],
+                                        $target_file_logo);
+                                unlink("images/users/" . $userdetails->image);
+                                $userData['image'] = $fileName_logo;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $userData['image'] = $userdetails->image;
+                    } 
+                    $insertId = $this->muser_model->update_user($userid,$userData);
+                    echo "success";
+                }
+            }
+        }
 }

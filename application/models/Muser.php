@@ -31,11 +31,17 @@ class Muser extends CI_Model{
 }
 function getuserById($user_id)
 {
-     $this->db->select('*');	
-     $this->db->from('users');
-     $this->db->where('user_id', $user_id);
-     $query = $this->db->get();
-     
-     return $query->row(); 
+$this->db->select('user_id,first_name,user_name,last_name,email,gender,dateofbirth,image');
+$this->db->from('users');
+$this->db->where('user_id', $user_id);
+$query = $this->db->get();
+
+return $query->row();
+}
+public function update_user($userid,$fields)
+{
+$this->db->where('user_id', $userid);
+$this->db->update('users', $fields);
+return true;
 }
 }
