@@ -23,7 +23,7 @@ section.login {
   
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="<?php echo base_url('user')?>">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
@@ -31,9 +31,9 @@ section.login {
       </ul>
       <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
-          <a class="nav-link" href="http://localhost/scm/User/signup">Sign Up/</a>
+          <a class="nav-link" href="<?php echo base_url('user/signup')?>">Sign Up/</a>
         </li> <li class="nav-item">
-          <a class="nav-link" href="http://localhost/scm/User/login">Sign In</a>
+          <a class="nav-link" href="<?php echo base_url('user/login')?>">Sign In</a>
         </li>
       </ul>
     </div>

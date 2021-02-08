@@ -22,30 +22,27 @@ $userSession_data=$this->session->userdata();
    
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="<?php echo base_url('user')?>">Home
+          <a class="nav-link" href="#">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
 
       </ul>
       <ul class="nav navbar-nav ml-auto">
-      <?php if(!isset($userSession_data["user_id"]) || $userSession_data["user_id"] == ''){
+      <?php if($userSession_data["user_id"] == ''){
           ?>
 
-<li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/signup')?>">Sign Up/</a>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost/scm/User/signup">Sign Up/</a>
         </li> <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/login')?>">Sign In</a>
+          <a class="nav-link" href="http://localhost/scm/User/login">Sign In</a>
         </li>
         <?php
         }
         else{
         ?>
-          <li class="nav-item">
+          </li> <li class="nav-item">
           <a class="nav-link" href=""><?php echo $userSession_data["user_name"]; ?></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/logout')?>">Logout</a>
         </li>
 <?php
 }
@@ -55,17 +52,3 @@ $userSession_data=$this->session->userdata();
   </div>
 
 </nav>
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-black w3-xlarge">
-  <a href="#"><i class="fa fa-facebook-official"></i></a>
-  <a href="#"><i class="fa fa-pinterest-p"></i></a>
-  <a href="#"><i class="fa fa-twitter"></i></a>
-  <a href="#"><i class="fa fa-flickr"></i></a>
-  <a href="#"><i class="fa fa-linkedin"></i></a>
- 
-</footer>
-
-
-
-</body>
-</html>

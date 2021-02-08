@@ -10,6 +10,7 @@ class User extends CI_Controller {
     }
     public function index()
 	{
+    $userSession_data=$this->session->userdata();
     $this->load->view('home');
     }
     public function login()
@@ -79,7 +80,7 @@ class User extends CI_Controller {
                
                 if ($db_password == $current_password) {
 
-                    $sesdata = array('admin_idec' => ($alllogins->user_id), 'admin_name' => ($alllogins->first_name));
+                    $sesdata = array('user_id' => ($alllogins->user_id), 'user_name' => ($alllogins->first_name));
                     $this->session->set_userdata($sesdata);
                     echo"success";
                 } else {
@@ -90,5 +91,15 @@ class User extends CI_Controller {
             }
 
         }
+    }
+    public function welcome()
+	{
+    $this->load->view('Thankyou');
+    }
+    public function logout() {
+       
+            $this->session->sess_destroy();
+            redirect(site_url(). '/user/login' );
+   
     }
 }
