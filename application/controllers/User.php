@@ -55,6 +55,27 @@ class User extends CI_Controller {
                 $date = date('Y-m-d');
                 $userData['dateofbirth'] = $this->security->xss_clean($this->input->post('birthday'));
                 $userData['gender'] = $this->security->xss_clean($this->input->post('gender'));
+                if ($_FILES['imageval']['name'] != '') {
+
+                    $target_dir_logo = "images/users/";
+                    $filename_logo = $_FILES["imageval"]["name"];
+                    foreach ($filename_logo as $key => $tmp_name) 
+                    {
+                        $filename_logo = $filename_logo[0];
+                        $fileName_logo = preg_replace('#[^a-z.0-9]#i', '',
+                                $tmp_name);
+                        $kaboom_logo = explode(".", $fileName_logo); // Split file name into an array using the dot
+                        $fileExt_logo = end($kaboom_logo); // Now target the last array element to get the file extension
+                        $fileName_logo = time() . rand() . "." . $fileExt_logo;
+                        $target_file_logo = $target_dir_logo . basename($fileName_logo);
+                        $imageFileType_logo = pathinfo($target_file_logo,
+                                PATHINFO_EXTENSION);
+                        $fileTmpLoc = $_FILES["imageval"]["tmp_name"];
+                        move_uploaded_file($fileTmpLoc[$key],
+                                $target_file_logo);
+                        $userData['image'] = $fileName_logo;
+                    }
+                } 
                 $insertId = $this->muser_model->insert_user($userData);
                 echo "success";
             }
@@ -101,5 +122,10 @@ class User extends CI_Controller {
             $this->session->sess_destroy();
             redirect(site_url(). '/user/login' );
    
+    }
+    public function userview() {
+     
+        $this->load->view('user_view');
+       
     }
 }

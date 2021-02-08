@@ -7,9 +7,15 @@ $userSession_data=$this->session->userdata();
 <html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/w3css/3/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<style>
+section.login {
+    margin-top: 100px;
+}
+</style>
 <body>
 
 <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
@@ -22,27 +28,30 @@ $userSession_data=$this->session->userdata();
    
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="<?php echo base_url('user')?>">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
 
       </ul>
       <ul class="nav navbar-nav ml-auto">
-      <?php if($userSession_data["user_id"] == ''){
+      <?php if(!isset($userSession_data["user_id"]) || $userSession_data["user_id"] == ''){
           ?>
 
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost/scm/User/signup">Sign Up/</a>
+<li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('user/signup')?>">Sign Up/</a>
         </li> <li class="nav-item">
-          <a class="nav-link" href="http://localhost/scm/User/login">Sign In</a>
+          <a class="nav-link" href="<?php echo base_url('user/login')?>">Sign In</a>
         </li>
         <?php
         }
         else{
         ?>
-          </li> <li class="nav-item">
-          <a class="nav-link" href=""><?php echo $userSession_data["user_name"]; ?></a>
+          <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('user/userview')?>"><i class="fa fa-user" aria-hidden="true"></i><?php echo $userSession_data["user_name"]; ?></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('user/logout')?>">Logout</a>
         </li>
 <?php
 }

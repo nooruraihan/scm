@@ -1,47 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<!DOCTYPE html>
-<html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<style>
-section.login {
-    margin-top: 100px;
-}
-</style>
-<body>
-
-<nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">Logo</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="<?php echo base_url('user')?>">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-
-      </ul>
-      <ul class="nav navbar-nav ml-auto">
-      <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/signup')?>">Sign Up/</a>
-        </li> <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/login')?>">Sign In</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</nav>
+<?php $this->load->view('header'); ?>
 <section class="login">
         <div class="container">
             <div class="row">
@@ -60,11 +17,11 @@ section.login {
                             <input type="text"  class="form-control" placeholder="Last Name" name="lname" value="<?php echo set_value('lname') ?>"  required=""> 
                         </div>
 						<div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Email Address" name="email" value="<?php echo set_value('email') ?>" required="" autocomplete="off"> 
+                            <input type="text" class="form-control" placeholder="Your Email Address" name="email" value="<?php echo set_value('email') ?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{1,10}$"  required="" autocomplete="off"> 
                         </div>
 						
 												<div class="form-group">
-                        <input type="password"  class="form-control" placeholder="Create Password" name="paswrd" autocomplete="off" value="<?php echo set_value('paswrd') ?>" autocomplete="off" required="">
+                        <input type="password"  class="form-control" placeholder="Create Password" name="paswrd" minlength="6" autocomplete="off" value="<?php echo set_value('paswrd') ?>" autocomplete="off" required="">
                     </div>
 	
 						<div class="form-group">
@@ -85,7 +42,12 @@ section.login {
                                 <label for="birthday">Date Of Birth</label>
   <input type="date" id="birthday" name="birthday">
   <div>
-                   	
+  <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Image<span style="color:red;" ></span></label>
+                                    <div class="col-sm-6">
+                                        <input type="file"  name="imageval[]" class="form-control imagevalidationone" required >
+                                    </div>  
+                                </div>
                     <button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
 					</div>
                     </form>
@@ -96,12 +58,16 @@ section.login {
 <script>
  	   function registersubmit() {
 
-
+        var formElem = $("#registration");
+var formdata = new FormData(formElem[0]);
 $.ajax({
 
     url: "<?php echo base_url('user/submitregister') ?>",
     method: "POST",
-    data: $('#registration').serialize(),
+    data: formdata, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                contentType: false, // The content type used when sending data to the server.
+                cache: false, // To unable request pages to be cached
+                processData: false, // To send DOMDocument or non processed data file it is set to false
 
 //                            
     success: function (response) {
@@ -114,7 +80,7 @@ $.ajax({
             $('#sucesssubmitreg').show().html('You are registered successfully.');
             setTimeout(function () {
                 $('#sucesssubmitreg').hide(
-window.location.replace("<?php echo base_url('user') ?>")
+window.location.replace("<?php echo base_url('user/login') ?>")
 );
             }, 3000);
         } else if ($.trim(response) === 'fail') {
@@ -144,6 +110,22 @@ window.location.replace("<?php echo base_url('user') ?>")
 });
 return false;
 }
+$(document).ready(function () {
+    $(".imagevalidationone").on('change', function () {
+        var img = $('.imagevalidationone').val();
+       
+        var imgPath = $(this)[0].value;
+        var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+
+        if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+
+        } else {
+            alert('Your image was not .gif, .jpg, .png, .jpeg');
+            $('.imagevalidationone').val(''); 
+        }
+    });
+});
+
 </script>
 </body>
 </html>
